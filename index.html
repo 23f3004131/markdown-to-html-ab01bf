@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown to HTML Renderer</title>
+    <link rel="stylesheet" href="assets/styles/highlight.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Markdown to HTML Renderer</h1>
+    <div id="content"></div>
+
+    <script src="assets/marked.min.js"></script>
+    <script src="assets/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('input.md')
+                .then(response => response.text())
+                .then(markdown => {
+                    // Convert Markdown to HTML
+                    const htmlContent = marked(markdown);
+
+                    // Insert HTML content into the page
+                    document.getElementById('content').innerHTML = htmlContent;
+
+                    // Apply syntax highlighting
+                    document.querySelectorAll('pre code').forEach(block => {
+                        hljs.highlightBlock(block);
+                    });
+                })
+                .catch(error => console.error('Error loading markdown:', error));
+        });
+    </script>
+</body>
+</html>
